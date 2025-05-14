@@ -1,0 +1,14 @@
+# ignore variáveis de ambiente
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# uploads e binários
+uploads/
+static/uploads/
+
+# IDEs e logs
+.vscode/
+*.log

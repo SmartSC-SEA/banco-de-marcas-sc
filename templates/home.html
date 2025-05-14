@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+</head>
+<body class="bg-light">
+{% extends "base.html" %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+
+    {% if vencimentos %}
+        <div class="alert alert-warning">
+            <strong>Atenção!</strong> Existem {{ vencimentos|length }} marca(s) com validade vencendo nos próximos 60 dias.
+        </div>
+
+        <table class="table table-sm table-bordered table-striped table-hover">
+            <thead class="table-warning">
+                <tr>
+                    <th>Código Item</th>
+                    <th>Marca</th>
+                    <th>Data Validade</th>
+                    {% if session.perfil == 'admin' %}
+                        <th>Ações</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in vencimentos %}
+                <tr>
+                    <td>{{ item.codigo_item }}</td>
+                    <td>{{ item.marca }}</td>
+                    <td>{{ item.data_validade.strftime('%d/%m/%Y') if item.data_validade else '' }}</td>
+                    {% if session.perfil == 'admin' %}
+                        <td>
+                            <a href="{{ url_for('marcas.editar_marca', id=item.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if session.perfil == 'admin' and marcas_pendentes %}
+    <div class="mt-5">
+        <h4>Marcas pendentes de aprovação</h4>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-striped table-hover mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>Código</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in marcas_pendentes %}
+                    <tr>
+                        <td>{{ m.codigo_item }}</td>
+                        <td>{{ m.marca }}</td>
+                        <td>{{ m.modelo }}</td>
+                        <td>
+                            <a href="{{ url_for('marcas.editar_marca', id=m.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    
+
+{% endblock %}
+</body>
+</html>

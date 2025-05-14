@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Cadastro de Marcas{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- CSS do projeto -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}"> 
+        
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: #fff;" href="{{ url_for('auth.home') }}">Cadastro de Marcas </a>
+            {% if session.get('usuario') %}
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.home') }}">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('marcas.cadastro_marca') }}">Cadastro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('marcas.consulta_marcas') }}">Consulta</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item d-flex align-items-center text-white me-3">
+                        <i class="bi bi-clock"></i>
+                        <span id="relogio" class="ms-1"></span>
+                    </li>
+                    <li class="nav-item d-flex align-items-center text-white me-2">
+                        <i class="bi bi-person-fill"></i>&nbsp;
+                        {{ session['usuario'] }} -  {{ session['cpf'] }}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="{{ url_for('auth.logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success mt-3">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Rodapé -->
+    <p></p>
+    <footer class="bg-primary text-white text-center py-3 mt-auto">
+        <div class="container">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" style="height:40px; margin-bottom:10px;"><br>
+            <small>
+                Sistema de Cadastro de Marcas - Governo de SC<br>
+                Contato: gesic@sea.sc.gov.br
+            </small>
+        </div>
+    </footer>
+    <!-- Scripts Bootstrap --> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts do Projeto -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>    
+    {% block scripts %}{% endblock %}
+</body>
+</html>
