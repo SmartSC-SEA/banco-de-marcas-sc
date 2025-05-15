@@ -1,3 +1,6 @@
+-- ==========================================
+-- Tabelas principais da aplicação CadastroMarcas
+-- ==========================================
 
 CREATE TABLE IF NOT EXISTS usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -5,13 +8,13 @@ CREATE TABLE IF NOT EXISTS usuarios (
   senha VARCHAR(200) NOT NULL,
   perfil ENUM('admin','normal') NOT NULL DEFAULT 'normal',
   cpf VARCHAR(11) NOT NULL UNIQUE
-);
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS orgaos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   sgl_orgao VARCHAR(20) NOT NULL,
   nome_orgao VARCHAR(255) NOT NULL
-);
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS marcas (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,14 +37,14 @@ CREATE TABLE IF NOT EXISTS marcas (
   id_orgao INT NULL,
   status_aprovacao VARCHAR(20) NOT NULL DEFAULT 'pendente',
   FOREIGN KEY (id_orgao) REFERENCES orgaos(id)
-);
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS imagens_produto (
   id INT AUTO_INCREMENT PRIMARY KEY,
   id_marca INT NOT NULL,
   nome_arquivo VARCHAR(255) NOT NULL,
   FOREIGN KEY (id_marca) REFERENCES marcas(id)
-);
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS log_alteracoes (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -50,4 +53,20 @@ CREATE TABLE IF NOT EXISTS log_alteracoes (
   data_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   motivo TEXT NOT NULL,
   FOREIGN KEY (id_marca) REFERENCES marcas(id)
-);
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ==========================================
+-- Tabelas de Catálogo (local)
+-- ==========================================
+
+CREATE TABLE IF NOT EXISTS catalogo_itens (
+  item_codigo   VARCHAR(50) NOT NULL,
+  item_descricao VARCHAR(255) NOT NULL,
+  PRIMARY KEY (item_codigo)
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS catalogo_controle (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  data_ultima DATETIME NOT NULL,
+  total_registros INT NOT NULL DEFAULT 0
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
