@@ -1,0 +1,106 @@
+/* =======================
+   ESTILO GLOBAL
+   ======================= */
+   html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
+
+/* =======================
+   TÍTULOS E TEXTOS
+   ======================= */
+h2 {
+    text-align: center;
+}
+
+/* =======================
+   TABELAS - VISUAL GERAL
+   ======================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem; /* equivalente a 14px */
+}
+
+th, td {
+    border: 1px solid #dee2e6; /* cinza claro padrão bootstrap */
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f8f9fa; /* cinza clarinho do Bootstrap */
+    font-weight: 600;
+}
+
+/* =======================
+   TABELAS - HOVER
+   ======================= */
+.table-hover tbody tr:hover {
+    background-color: #d4edda; /* Verde pastel agradável */
+    transition: background-color 0.3s ease;
+}
+
+#resultado_busca table tr:hover {
+    background-color: #eaf7e1;
+    transition: background-color 0.2s;
+}
+
+/* =======================
+   LISTAS (ex: Anexos)
+   ======================= */
+.list-group-item:hover {
+    background-color: #d0e7c5;
+    transition: background-color 0.3s ease;
+}
+
+/* =======================
+   MENU E RODAPÉ
+   ======================= */
+.navbar-custom, footer {
+    background: linear-gradient(to right, #678A21, #3A5D06);
+    color: white;
+}
+
+.navbar-custom .nav-link {
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-custom .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 5px;
+}
+
+footer {
+    padding: 10px 0;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+footer .footer-center {
+    text-align: center;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+footer img {
+    height: 40px;
+}

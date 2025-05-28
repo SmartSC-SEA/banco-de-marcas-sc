@@ -1,0 +1,10 @@
+Flask
+Flask-MySQLdb
+xhtml2pdf
+flask-talisman
+flask-limiter
+python-dotenv
+mysql-connector-python
+mysql.connector
+pymysql
+requests

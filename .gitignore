@@ -1,0 +1,36 @@
+# Ignorar arquivos sensíveis e desnecessários
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.swp
+*.swo
+
+# Virtual environment
+venv/
+
+# Python
+*.py[cod]
+
+# uploads e binários
+uploads/
+static/uploads/
+
+# IDEs e logs
+.vscode/
+*.log
+
+# Scripts de uso interno
+scripts/
+
+# Docker
+*.pid
+*.sock
+docker-compose.override.yml
+
+# MacOS e Linux
+.DS_Store

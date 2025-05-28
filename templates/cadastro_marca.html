@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Marca</title>
+</head>
+<body class="bg-light">
+    {% extends "base.html" %}
+
+    {% block title %}Cadastro de Marcas{% endblock %}
+
+    {% block content %}
+    <div class="container mt-5">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success mt-3">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="row mb-3">
+            <div class="col-md-5">
+                <label>Buscar Código ou Descrição:</label>
+                <input type="text" id="termo_busca" class="form-control" placeholder="Digite código ou descrição">
+            </div>
+            <div class="col-md-3">
+                <label>Tipo de Busca:</label>
+                <select id="tipo_busca" class="form-control">
+                    <option value="descricao">Descrição</option>
+                    <option value="codigo">Código</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <label>&nbsp;</label>
+                <button type="button" onclick="buscarCatalogo()" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+        <div id="loading" class="text-center mt-3" style="display:none;">
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+        <div id="resultado_busca" class="mt-3"></div>
+        <p></p>
+        <div id="marcas_existentes" class="mt-4"></div>
+        <p></p>
+        <div id="acao_catalogo" class="mt-3" style="display: none;">
+            <button class="btn btn-warning" type="button" onclick="limparCatalogo()">Limpar seleção e buscar novamente</button>
+        </div>
+        <p></p>
+        
+
+        <h2 class="mb-4">Cadastrar Nova Marca</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Código do Item</label>
+                    <input type="text" name="codigo_item" class="form-control" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label>Descrição do Produto</label>
+                    <textarea name="descricao_produto" class="form-control" readonly required></textarea>
+                </div>                
+                <div class="mb-3">
+                    <label>Marca:</label>
+                    <select id="marca_select" name="marca" class="form-control">
+                        <option value="">Selecione...</option>
+                        <option value="outra">Outra (digitar nova marca)</option>
+                        {% for m in marcas %}
+                          <option value="{{ m }}">{{ m }}</option>
+                        {% endfor %}
+                    </select>
+                  
+                    <input type="text" id="nova_marca" name="nova_marca" class="form-control mt-2" placeholder="Digite nova marca" style="display:none;">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Data de Cadastro</label>
+                    <input type="date" name="data_cadastro" class="form-control" value="{{ hoje }}" required>
+                </div>
+                <div class="col">
+                    <label>Data de Validade</label>
+                    <input type="date" name="data_validade" class="form-control" value="{{ validade }}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Fornecedor da Amostra</label>
+                <input type="text" name="fornecedor_amostra" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Fabricante</label>
+                <input type="text" name="fabricante" class="form-control">
+            </div>
+            
+            <div class="mb-3" id="modelo_div">
+                <label>Modelo</label>
+                <input type="text" name="modelo" class="form-control">
+                <input type="text" name="modelo_novo" id="modelo_novo_input" class="form-control mt-2" placeholder="Digite novo modelo" style="display:none;">
+            </div>
+            
+            <div class="mb-3">
+                <label>País de Origem</label>
+                <select name="pais_origem" class="form-control" required>
+                    <option value="">Selecione um país</option>
+                    <option>Brasil</option>
+                    <option>Alemanha</option>
+                    <option>Argentina</option>
+                    <option>Canadá</option>
+                    <option>China</option>
+                    <option>Coreia do Sul</option>
+                    <option>Estados Unidos</option>
+                    <option>França</option>
+                    <option>Índia</option>
+                    <option>Itália</option>
+                    <option>Japão</option>
+                    <option>México</option>
+                    <option>Reino Unido</option>
+                </select>
+                  
+            </div>
+            
+            <div class="mb-3">
+                <label>Órgão</label>
+                <select name="id_orgao" class="form-control" required>
+                    <option>Selecione um Órgão</option>
+                    {% for orgao in orgaos %}
+                        <option value="{{ orgao.id }}">{{ orgao.sgl_orgao }} - {{ orgao.nome_orgao }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+
+            <div class="mb-3">
+                <label>Edital de Pré-Qualificação</label>
+                <input type="text" name="edital_pre_qualificacao" class="form-control">
+            </div> 
+
+            <div class="mb-3">
+                <label>Imagens do Produto</label>
+                <div id="imagem_container">
+                    <input type="file" name="imagens_produto" class="form-control mb-2">
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adicionarImagem()">+ Adicionar Imagem</button>
+            </div>
+            
+            
+            <div class="mb-3">
+                <label>Arquivo Registro/Documento</label>
+                <input type="file" name="arquivo_registro" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+                <label>Arquivo Ficha de Parecer</label>
+                <input type="file" name="arquivo_ficha_parecer" class="form-control">
+            </div>
+                                   
+            <div class="mb-3">
+                <label>Processo SGPE de Validação</label>
+                <input type="text" name="processo_sgpe" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Observação</label>
+                <textarea name="observacao" class="form-control"></textarea>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+            </div>
+        </form>
+        
+
+    
+    </div>
+    <p></p>
+    {% endblock %}    
+</body>
+</html>

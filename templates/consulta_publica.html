@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta Pública de Marcas</title>
+        
+</head>
+
+<body class="bg-light">
+    {% extends "base.html" %}
+
+    {% block title %}Cadastro de Marcas{% endblock %}
+
+    {% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Consulta Pública de Marcas Aprovadas</h2>
+
+        <form method="POST" class="row g-3 mb-4" id="form_publica">
+            <div class="col-md-4">
+                <label>Código do Item:</label>
+                <input type="text" name="codigo_item" class="form-control" placeholder="Digite o Código">
+            </div>
+            <div class="col-md-4">
+                <label>Descrição do Produto:</label>
+                <input type="text" name="descricao" class="form-control" placeholder="Digite a Descrição">
+            </div>
+            <div class="col-md-4">
+                <label>Marca:</label>
+                <input type="text" name="marca" class="form-control" placeholder="Digite a Marca">
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary mt-3">Pesquisar</button>
+            </div>
+        </form>
+
+        {% if marcas %}
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Código Item</th>
+                    <th>Marca</th>
+                    <th>Descrição Produto</th>
+                    <th>Data Cadastro</th>
+                    <th>Data Validade</th>
+                    <th>Observação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for marca in marcas %}
+                <tr>
+                    <td>{{ marca.codigo_item | e }}</td>
+                    <td>{{ marca.marca | e }}</td>
+                    <td>{{ marca.descricao_produto | e }}</td>
+                    <td>{{ marca.data_cadastro.strftime('%d/%m/%Y') if marca.data_cadastro else '' }}</td>
+                    <td>{{ marca.data_validade.strftime('%d/%m/%Y') if marca.data_validade else '' }}</td>
+                    <td>{{ marca.observacao | e }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            {% if request.method == 'POST' %}
+                <div class="alert alert-warning">Nenhum resultado encontrado.</div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+    
+</body>
+</html>

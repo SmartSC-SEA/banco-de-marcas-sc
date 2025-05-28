@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    container_name: banco-marcas-web
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./static/uploads:/app/static/uploads
+      - /var/lib/banco-de-marcas/uploads:/var/lib/banco-de-marcas/uploads
+#    depends_on:
+#      - db
+
+#  db:
+#    image: mysql:8.0
+#    container_name: banco-marcas-db
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: catalogo_marcas
+#      MYSQL_USER: bancoapp
+#      MYSQL_PASSWORD: 123456
+#    volumes:
+#      - db_data:/var/lib/mysql
+#      - ./db/create_tables.sql:/docker-entrypoint-initdb.d/1_create_tables.sql
+#      - ./db/insert_orgaos.sql:/docker-entrypoint-initdb.d/2_insert_orgaos.sql
+#
+#volumes:
+#  db_data:

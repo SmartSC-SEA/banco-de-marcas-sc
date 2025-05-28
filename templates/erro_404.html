@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Página Não Encontrada{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1 class="display-4 text-warning">Erro 404</h1>
+    <p class="lead">A página que você está procurando não foi encontrada.</p>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-secondary mt-3">Voltar ao Início</a>
+</div>
+{% endblock %}
